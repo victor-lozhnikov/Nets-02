@@ -15,7 +15,8 @@ public class Receiver implements Runnable {
     public Receiver(int port) throws IOException {
         socket = new ServerSocket(port, 0, InetAddress.getLocalHost());
         clientsSockets = new ArrayList<>();
-        System.out.println("Server started. Address: " + socket.getInetAddress().getHostAddress());
+        System.out.println("Server started. Address: " +
+                socket.getInetAddress().getHostAddress());
     }
 
     @Override

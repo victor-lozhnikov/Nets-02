@@ -39,7 +39,8 @@ public class Sender implements Runnable {
     }
 
     void sendHeader() throws IOException {
-        byte[] fileNameLengthBuf = ByteBuffer.allocate(4).putInt(file.getName().length()).array();
+        byte[] fileNameLengthBuf = ByteBuffer.allocate(2)
+                .putShort((short) file.getName().length()).array();
         out.write(fileNameLengthBuf);
 
         byte[] fileNameBuf = file.getName().getBytes();
@@ -58,7 +59,7 @@ public class Sender implements Runnable {
         long bytesRemain = file.length();
         InputStream inputStream = new FileInputStream(file);
         while (bytesSent < file.length()) {
-            int bytesToSend = bytesRemain < BUF_SIZE ? (int)bytesRemain : 4096;
+            int bytesToSend = bytesRemain < BUF_SIZE ? (int) bytesRemain : 4096;
             int bytesReadNow = inputStream.read(fileBuf, 0, bytesToSend);
             out.write(fileBuf, 0, bytesReadNow);
             out.flush();

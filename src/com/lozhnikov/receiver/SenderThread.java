@@ -29,7 +29,8 @@ public class SenderThread implements Runnable {
             receiveFile();
         }
         catch (IOException | IndexOutOfBoundsException ex) {
-            System.out.println("Connection to sender of '" + fileName + "' lost. File didn't receive");
+            System.out.println("Connection to sender of '" + fileName +
+                    "' lost. File didn't receive");
         }
         finally {
             timer.cancel();
@@ -46,9 +47,9 @@ public class SenderThread implements Runnable {
     void receiveHeader() throws IOException {
         DataInputStream in = new DataInputStream(socket.getInputStream());
 
-        byte[] fileNameLengthBuf = new byte[4];
+        byte[] fileNameLengthBuf = new byte[2];
         in.readFully(fileNameLengthBuf);
-        int fileNameLength = ByteBuffer.wrap(fileNameLengthBuf).getInt();
+        int fileNameLength = ByteBuffer.wrap(fileNameLengthBuf).getShort();
 
         byte[] fileNameBuf = new byte[fileNameLength];
         in.readFully(fileNameBuf);
@@ -77,7 +78,8 @@ public class SenderThread implements Runnable {
 
         long startTime = System.currentTimeMillis();
         while (bytesRemain > 0) {
-            int bytesReceivedNow = in.read(fileBuf, 0, bytesRemain < BUF_SIZE ? (int)bytesRemain : BUF_SIZE);
+            int bytesReceivedNow = in.read(fileBuf, 0,
+                    bytesRemain < BUF_SIZE ? (int) bytesRemain : BUF_SIZE);
             bytesReceived += bytesReceivedNow;
             bytesRemain -= bytesReceivedNow;
             outFileStream.write(fileBuf, 0, bytesReceivedNow);
