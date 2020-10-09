@@ -7,12 +7,12 @@ import java.util.Timer;
 
 public class SenderThread implements Runnable {
 
-    private Socket socket;
-    private String fileDir = System.getProperty("user.dir") + "/uploads";
+    private final Socket socket;
+    private final String fileDir = System.getProperty("user.dir") + "/uploads";
     private String fileName;
     private File outFile;
     private long fileSize;
-    private InputStream in;
+    private final InputStream in;
     private int BUF_SIZE = 4096;
     private long bytesReceived = 0;
     private Timer timer;

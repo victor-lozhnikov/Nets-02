@@ -2,6 +2,7 @@ package com.lozhnikov.sender;
 
 import java.io.*;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 
@@ -13,7 +14,8 @@ public class Sender implements Runnable {
     int BUF_SIZE = 4096;
 
     public Sender(InetAddress inetAddress, int port, File file) throws IOException {
-        socket = new Socket(inetAddress, port);
+        socket = new Socket();
+        socket.connect(new InetSocketAddress(inetAddress, port), 10000);
         out = new BufferedOutputStream(socket.getOutputStream());
         this.file = file;
     }

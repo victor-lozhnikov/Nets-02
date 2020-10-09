@@ -13,6 +13,7 @@ public class SpeedCounter extends TimerTask {
 
     @Override
     public void run() {
+
         long newBytes = parent.getReceivedBytes();
         System.out.printf("Current speed of '%s': %.3f Mb/s\n", parent.getFileName(),
                 ((newBytes - oldBytes) * 1000.0 / 1000 / 8 / 1024 / 1024));

@@ -4,19 +4,15 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Receiver implements Runnable {
 
     ServerSocket socket;
-    List<Socket> clientsSockets;
 
     public Receiver(int port) throws IOException {
         socket = new ServerSocket(port, 0, InetAddress.getLocalHost());
-        clientsSockets = new ArrayList<>();
         System.out.println("Server started. Address: " +
-                socket.getInetAddress().getHostAddress());
+                socket.getLocalSocketAddress());
     }
 
     @Override
@@ -24,14 +20,22 @@ public class Receiver implements Runnable {
         try {
             while (!Thread.currentThread().isInterrupted()) {
                 Socket newSenderSocket = socket.accept();
-                clientsSockets.add(newSenderSocket);
                 Thread newSenderThread = new Thread(new SenderThread(newSenderSocket));
                 newSenderThread.start();
-                System.out.println("New sender. Address: " + newSenderSocket.getInetAddress().getHostAddress());
+                System.out.println("New sender. Address: " +
+                        newSenderSocket.getLocalSocketAddress());
             }
         }
         catch (IOException ex) {
             ex.printStackTrace();
+        }
+        finally {
+            try {
+                socket.close();
+            }
+            catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

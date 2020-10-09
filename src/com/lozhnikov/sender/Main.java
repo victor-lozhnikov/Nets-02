@@ -19,7 +19,9 @@ public class Main {
                 Thread sender_thread = new Thread(new Sender(inetAddress, port, file));
                 sender_thread.start();
             }
-            else throw new FileNotFoundException();
+            else {
+                System.out.println("File '" + fileName + "' not found");
+            }
         }
         catch (IOException ex) {
             System.out.println("Can't connect to server");
