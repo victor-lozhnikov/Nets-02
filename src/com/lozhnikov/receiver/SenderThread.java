@@ -58,7 +58,7 @@ public class SenderThread implements Runnable {
         byte[] fileSizeBuf = new byte[8];
         in.readFully(fileSizeBuf);
         fileSize = ByteBuffer.wrap(fileSizeBuf).getLong();
-        System.out.println("Header received: '" + fileName + "' " + fileSize);
+        System.out.println("Header received: '" + fileName + "', " + fileSize + " bytes");
     }
 
     void receiveFile() throws IOException, IndexOutOfBoundsException {
@@ -97,5 +97,9 @@ public class SenderThread implements Runnable {
 
     public String getFileName() {
         return fileName;
+    }
+
+    public long getFileSize() {
+        return fileSize;
     }
 }
